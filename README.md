@@ -1,44 +1,45 @@
-# TCP Port Scanner
+# Portscan
 
-A concurrent TCP port scanner for PowerShell that quickly identifies open ports on a target host.
+A small concurrent TCP port scanner available in both PowerShell and Python.
 
-## What it does
-
-`get-openports.ps1` scans a range of TCP ports on a target host using asynchronous connection attempts. It runs multiple scans in parallel for speed and returns a list of open ports.
-
-**Requirements:** PowerShell 7+
-
-## Usage
+## PowerShell
 
 ```powershell
 pwsh -File .\get-openports.ps1 -Target <host> [-StartPort <int>] [-EndPort <int>] [-Timeout <ms>] [-ThrottleLimit <int>]
 ```
 
-## Parameters
+Parameters:
+- `-Target` (required): DNS name or IP address to scan
+- `-StartPort` (default: 1): first port to check
+- `-EndPort` (default: 65535): last port to check
+- `-Timeout` (default: 200): milliseconds per connection attempt
+- `-ThrottleLimit` (default: 200): maximum parallel tasks
 
-- **-Target** (required): DNS name or IP address to scan
-- **-StartPort** (default: 1): First port to check
-- **-EndPort** (default: 65535): Last port to check
-- **-Timeout** (default: 200): Milliseconds to wait per connection attempt
-- **-ThrottleLimit** (default: 200): Maximum parallel scan threads
-
-## Examples
-
-Scan common ports on example.com:
+Example:
 ```powershell
-pwsh -File .\get-openports.ps1 -Target example.com -StartPort 1 -EndPort 1024
+pwsh -File .\get-openports.ps1 -Target example.com -StartPort 1 -EndPort 1024 -Timeout 200 -ThrottleLimit 200
 ```
 
-Scan ports 8000-8100 on localhost with a 500ms timeout:
-```powershell
-pwsh -File .\get-openports.ps1 -Target localhost -StartPort 8000 -EndPort 8100 -Timeout 500
+## Python
+
+```bash
+python3 get-openports.py -t <host> [-s <int>] [-e <int>] [--timeout <ms>] [--concurrency <int>]
 ```
 
-Show help:
-```powershell
-pwsh -File .\get-openports.ps1 -Help
+Parameters:
+- `-t, --target` (required): DNS name or IP address to scan
+- `-s, --start-port` (default: 1): first port to check
+- `-e, --end-port` (default: 65535): last port to check
+- `--timeout` (default: 200): milliseconds per connection attempt
+- `--concurrency` (default: 200): maximum concurrent checks
+
+Example:
+```bash
+python3 get-openports.py -t example.com -s 1 -e 1024 --timeout 200 --concurrency 200
 ```
 
-## Output
+## Notes
 
-Returns a list of open ports with their status.
+- Both versions scan TCP ports and print the ports that accept a connection.
+- Python requires Python 3.12 and uses only the standard library.
+- The script is intended for targeted scans rather than full-range reconnaissance on large networks.
