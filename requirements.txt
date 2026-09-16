@@ -1,3 +1,4 @@
 # Python 3.12 compatible
 # No additional third-party packages are required for this script.
 # The project uses only the Python standard library.
+pytest

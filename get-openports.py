@@ -22,7 +22,6 @@ import sys
 MIN_PORT = 1
 MAX_PORT = 65535
 
-
 def _validate_scan_settings(
     start_port: int,
     end_port: int,
