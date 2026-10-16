@@ -40,7 +40,6 @@ def _validate_scan_settings(
     if concurrency < 1:
         raise ValueError("Concurrency must be greater than 0.")
 
-
 def _probe_port(target: str, port: int, timeout_seconds: float) -> bool:
     """Try a single TCP connect and return True if the port accepts the connection."""
     try:
@@ -48,7 +47,6 @@ def _probe_port(target: str, port: int, timeout_seconds: float) -> bool:
             return True
     except (OSError, socket.timeout):
         return False
-
 
 async def scan_port(target: str, port: int, timeout_ms: int) -> tuple[int, bool]:
     """Check one port and return the port number with its open/closed state."""
@@ -58,7 +56,6 @@ async def scan_port(target: str, port: int, timeout_ms: int) -> tuple[int, bool]
     except Exception:
         return port, False
     return port, is_open
-
 
 async def scan_ports(
     target: str,
@@ -84,7 +81,6 @@ async def scan_ports(
                 task.cancel()
 
     return [port for port, is_open in results if is_open]
-
 
 def parse_args() -> argparse.Namespace:
     """Parse the CLI options and return the validated settings used for the scan."""
@@ -126,7 +122,6 @@ def parse_args() -> argparse.Namespace:
     )
     return parser.parse_args()
 
-
 async def main_async() -> int:
     """Validate settings, run the scan, and print any open ports found."""
     args = parse_args()
@@ -151,7 +146,6 @@ async def main_async() -> int:
         print(f"  {port}")
     return 0
 
-
 def main() -> int:
     """CLI entry point that converts user errors into concise stderr output."""
     try:
@@ -162,7 +156,6 @@ def main() -> int:
     except KeyboardInterrupt:
         print("\nScan aborted.")
         return 130
-
 
 if __name__ == "__main__":
     raise SystemExit(main())
